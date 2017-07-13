@@ -1,0 +1,13 @@
+---
+- name: Delete legacy kubedns replication controller
+  kube:
+    name: "kubedns"
+    namespace: "{{system_namespace}}"
+    kubectl: "{{bin_dir}}/kubectl"
+    resource: "rc"
+    state: absent
+  when: inventory_hostname == groups['kube-master'][0]
+- name: Delete legacy kubedns replication controller manifest
+  file:
+    path: "{{kube_config_dir}}/kubedns-rc.yml"
+    state: absent

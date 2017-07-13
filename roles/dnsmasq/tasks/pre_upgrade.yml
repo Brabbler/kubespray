@@ -7,3 +7,7 @@
     resource: "ds"
     state: absent
   when: inventory_hostname == groups['kube-master'][0]
+- name: Delete legacy dnsmasq deamonset manifest
+  file:
+    path: "{{kube_config_dir}}/dnsmasq-ds.yml"
+    state: absent

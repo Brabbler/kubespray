@@ -1,4 +1,6 @@
 ---
+- include: pre_upgrade.yml
+
 - name: Kubernetes Apps | Wait for kube-apiserver
   uri:
     url: http://localhost:{{ kube_apiserver_insecure_port }}/healthz
@@ -28,6 +30,7 @@
     resource: "{{item.item.type}}"
     filename: "{{kube_config_dir}}/{{item.item.file}}"
     state: "{{item.changed | ternary('latest','present') }}"
+    force: {{item.changed}}
   with_items: "{{ manifests.results }}"
   when: dns_mode != 'none' and inventory_hostname == groups['kube-master'][0]
   tags: dnsmasq
