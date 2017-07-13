@@ -76,7 +76,7 @@
     resource: "{{item.item.type}}"
     filename: "{{kube_config_dir}}/{{item.item.file}}"
     state: "{{item.changed | ternary('latest','present') }}"
-    force: {{item.changed}}
+    force: "{{item.changed}}"
   with_items: "{{ manifests.results }}"
   delegate_to: "{{ groups['kube-master'][0] }}"
   run_once: true
